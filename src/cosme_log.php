@@ -1,7 +1,36 @@
 <?php
 
-$reviews = [];
+/**
+ * ここを追加
+ *
+ * データベースと接続するので dbConnect と名付けた
+ */
+function dbConnect()
+{
+    $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
+    if (!$link) {
+        echo 'Error:データベースに接続できませんでした' . PHP_EOL;
+        echo 'Debugging error:' . mysqli_connect_error() . PHP_EOL;
+        exit;
+    }
+    echo 'データベースに接続できました' . PHP_EOL;
+    /**
+     * $link は mysqli_connect() の戻り値である、データベースとの接続情報
+     * データベースと切断したり、テーブルからデータを取得・登録する際に接続情報を使用するので、return で返す
+     */
+    return $link;
+}
 
+$reviews = [];
+/**
+ * ここを追加
+ *
+ * 登録でも表示でもデータベースと接続するので、事前にデータベースと接続しておく
+ * dbConnect() の戻り値を $link という新しい変数に入れる
+ * dbConnect() 内の $link と同じ名前の変数を宣言しているけど、それとは別の変数
+ * なぜ同じ名前を使っているかというと、dbConnect() の戻り値が $link（データベースとの接続情報）で、同じデータなので同じ名前を使っている
+ */
+$link = dbConnect();
 function createReview()
 {
     echo '化粧品ログを登録してください' . PHP_EOL;
@@ -62,6 +91,13 @@ while (true) {
     } elseif (
         $num === 9
     ) {
+        /**
+         * ここを追加
+         *
+         * アプリケーション終了時にデータベースとの接続を切断する
+         * $link はここで使う。なので dbConnect() が戻り値で $link を返す必要がある
+         */
+        mysqli_close($link);
         break;
     }
 }
