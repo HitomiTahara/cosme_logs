@@ -1,0 +1,27 @@
+INSERT INTO cosmelog (
+product_name,
+product_maker,
+use_by_date,
+suggestion,
+etc
+)VALUES(
+  'lip',
+  'KOSE',
+  '2023-09-13',
+  '10',
+  'Good'
+  );
+
+INSERT INTO cosmelog (
+product_name,
+product_maker,
+use_by_date,
+suggestion,
+etc
+)VALUES(
+  'eye shadow',
+  'KOSE',
+  'a',
+  '6',
+  'Great'
+  );

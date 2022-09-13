@@ -1,71 +1,108 @@
 <?php
 
-/**
- * ここを追加
- *
- * データベースと接続するので dbConnect と名付けた
- */
-function dbConnect()
+function validate($review) //バリデーションメソッドを用意
 {
-    $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
-    if (!$link) {
-        echo 'Error:データベースに接続できませんでした' . PHP_EOL;
-        echo 'Debugging error:' . mysqli_connect_error() . PHP_EOL;
-        exit;
+    $errors = [];
+
+    //化粧品が正しく入力されているかチェック
+
+    if (!strlen($review['product'])) {
+        $errors['product'] = '化粧品名を入力してください';
+    } else if (strlen($review['product']) > 100) {
+        $errors['product'] = '化粧品名は100文字以内で入力してください';
     }
-    echo 'データベースに接続できました' . PHP_EOL;
-    /**
-     * $link は mysqli_connect() の戻り値である、データベースとの接続情報
-     * データベースと切断したり、テーブルからデータを取得・登録する際に接続情報を使用するので、return で返す
-     */
-    return $link;
+
+    //メーカー名をチェック
+
+    if (!strlen($review['maker'])) {
+        $errors['maker'] = 'メーカー名を入力してください';
+    } else if (strlen($review['maker']) > 100) {
+        $errors['maker'] = 'メーカー名は100文字以内で入力してください';
+    }
+
+    //使用期限をチェック
+    if (!in_array($review['useByDate'], ['1年', '半年', '未使用'], true)) {
+        $errors['useByDate'] = '使用期限は「1年」「半年」「未使用」のいずれかを入力してください';
+    }
+
+
+    //評価ログの整数かチェック
+    if ($review['suggestion'] < 1 || $review['suggestion'] > 10) {
+        $errors['suggestion'] = '1〜10の整数を入力してください';
+    }
+    //備考をチェック
+    if (!strlen($review['etc'])) {
+        $errors['etc'] = '備考を入力してください';
+    } else if (strlen($review['etc']) > 255) {
+        $errors['etc'] = '備考は255文字以内で入力してください';
+    }
+    return $errors;
 }
 
-$reviews = [];
-/**
- * ここを追加
- *
- * 登録でも表示でもデータベースと接続するので、事前にデータベースと接続しておく
- * dbConnect() の戻り値を $link という新しい変数に入れる
- * dbConnect() 内の $link と同じ名前の変数を宣言しているけど、それとは別の変数
- * なぜ同じ名前を使っているかというと、dbConnect() の戻り値が $link（データベースとの接続情報）で、同じデータなので同じ名前を使っている
- */
-$link = dbConnect();
-function createReview()
+
+function createReview($link)
 {
+    $review  = [];
+
     echo '化粧品ログを登録してください' . PHP_EOL;
     echo '化粧品名：';
-    $product = trim(fgets(STDIN));
+    $review['product'] = trim(fgets(STDIN));
+
     echo 'メーカー名：';
-    $maker = trim(fgets(STDIN));
+    $review['maker'] = trim(fgets(STDIN));
 
-    echo '使用期限(今日から1年後):';
-    $useByDate = trim(fgets(STDIN));
+    echo '使用状態(「1年」「半年」「未使用」のいずれか):';
+    $review['useByDate'] = trim(fgets(STDIN));
 
-    echo 'おすすめ度(10点満点):';
-    $suggestion = trim(fgets(STDIN));
+    echo 'おすすめ度(10点満点の整数):';
+    $review['suggestion'] = (int) trim(fgets(STDIN));
 
     echo '備考：';
-    $etc = trim(fgets(STDIN));
+    $review['etc'] = trim(fgets(STDIN));
 
-    echo '登録が完了しました' . PHP_EOL . PHP_EOL;
-    return  [
-        'product' => $product,
-        'maker' => $maker,
-        'useByDate' => $useByDate,
-        'suggestion' => $suggestion,
-        'etc' => $etc,
-    ];
+    /**  validate関数でエラーがあったら戻り値がかえる。
+     *バリデーションにエラーがあった場合
+     *  $validatedに格納される
+     */
+    $validated = validate($review);
+    if (count($validated) > 0) {
+        foreach ($validated as $error) {
+            echo $error . PHP_EOL; //エラーを全部表示
+        }
+        return; //登録処理されないようにreturnを返す。
+    }
+
+    $sql = <<<EOT
+INSERT INTO cosmelog (
+product_name,
+product_maker,
+use_by_date,
+suggestion,
+etc
+)VALUES(
+"{$review['product']}",
+"{$review['maker']}",
+"{$review['useByDate']}",
+{$review['suggestion']},
+"{$review['etc']}"
+)
+
+
+EOT;
+
+    $result = mysqli_query($link, $sql);
+    if ($result) {
+        echo '登録を完了しました' . PHP_EOL;
+    } else {
+        echo 'Error:データ追加に失敗しました' . PHP_EOL;
+        echo 'Debugging Error:' . mysqli_error($link) . PHP_EOL;
+    }
 }
 
-function displayReview($reviews)
+function listReviews($reviews)
 {
     echo '化粧ログを表示します' . PHP_EOL;
 
-    /**
-     *修正
-     *化粧ログを配列しなおす
-     */
     foreach ($reviews as $review) {
         echo '化粧品名：' . $review['product'] . PHP_EOL;
         echo 'メーカー名：' . $review['maker'] . PHP_EOL;
@@ -76,6 +113,20 @@ function displayReview($reviews)
     }
 }
 
+function dbConnect()
+{
+    $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
+    if (!$link) {
+        echo 'Error:データベースに接続できませんでした' . PHP_EOL;
+        echo 'Debugging error:' . mysqli_connect_error() . PHP_EOL;
+        exit;
+    }
+    echo 'データベースに接続できました' . PHP_EOL;
+    return $link;
+}
+
+$reviews = [];
+$link = dbConnect();
 
 while (true) {
     echo '1.化粧品ログを登録' . PHP_EOL;
@@ -85,18 +136,12 @@ while (true) {
 
     $num = trim(fgets(STDIN));
     if ($num === '1') {
-        $reviews[] = createReview();
+        createReview($link);
     } elseif ($num === '2') {
-        displayReview($reviews);
+        listReviews($reviews);
     } elseif (
-        $num === 9
+        $num === '9'
     ) {
-        /**
-         * ここを追加
-         *
-         * アプリケーション終了時にデータベースとの接続を切断する
-         * $link はここで使う。なので dbConnect() が戻り値で $link を返す必要がある
-         */
         mysqli_close($link);
         break;
     }
