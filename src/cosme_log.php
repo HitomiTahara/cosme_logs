@@ -1,30 +1,23 @@
 <?php
-
 function validate($review) //バリデーションメソッドを用意
 {
     $errors = [];
-
     //化粧品が正しく入力されているかチェック
-
     if (!strlen($review['product'])) {
         $errors['product'] = '化粧品名を入力してください';
     } else if (strlen($review['product']) > 100) {
         $errors['product'] = '化粧品名は100文字以内で入力してください';
     }
-
     //メーカー名をチェック
-
     if (!strlen($review['maker'])) {
         $errors['maker'] = 'メーカー名を入力してください';
     } else if (strlen($review['maker']) > 100) {
         $errors['maker'] = 'メーカー名は100文字以内で入力してください';
     }
-
     //使用期限をチェック
-    if (!in_array($review['useByDate'], ['1年', '半年', '未使用'], true)) {
-        $errors['useByDate'] = '使用期限は「1年」「半年」「未使用」のいずれかを入力してください';
+    if (!in_array($review['useByDate'], ['１年', '半年', '未使用'], true)) {
+        $errors['useByDate'] = '使用期限は「１年」「半年」「未使用」のいずれかを入力してください';
     }
-
 
     //評価ログの整数かチェック
     if ($review['suggestion'] < 1 || $review['suggestion'] > 10) {
@@ -51,7 +44,7 @@ function createReview($link)
     echo 'メーカー名：';
     $review['maker'] = trim(fgets(STDIN));
 
-    echo '使用状態(「1年」「半年」「未使用」のいずれか):';
+    echo '使用状態(１年or半年or未使用):';
     $review['useByDate'] = trim(fgets(STDIN));
 
     echo 'おすすめ度(10点満点の整数):';
@@ -72,22 +65,20 @@ function createReview($link)
         return; //登録処理されないようにreturnを返す。
     }
 
-    $sql = <<<EOT
-INSERT INTO cosmelog (
-product_name,
-product_maker,
-use_by_date,
-suggestion,
-etc
-)VALUES(
-"{$review['product']}",
-"{$review['maker']}",
-"{$review['useByDate']}",
-{$review['suggestion']},
-"{$review['etc']}"
+    $sql = <<< EOT
+    INSERT INTO cosmelog (
+    product_name,
+    product_maker,
+    use_by_date,
+    suggestion,
+    etc
+    )VALUES(
+    "{$review['product']}",
+    "{$review['maker']}",
+    "{$review['useByDate']}",
+    "{$review['suggestion']}",
+    "{$review['etc']}"
 )
-
-
 EOT;
 
     $result = mysqli_query($link, $sql);
@@ -99,33 +90,37 @@ EOT;
     }
 }
 
-function listReviews($reviews)
-{
-    echo '化粧ログを表示します' . PHP_EOL;
 
-    foreach ($reviews as $review) {
-        echo '化粧品名：' . $review['product'] . PHP_EOL;
-        echo 'メーカー名：' . $review['maker'] . PHP_EOL;
-        echo '使用期限：' . $review['useByDate'] . PHP_EOL;
+function listReviews($link)
+{
+    echo '登録されている化粧ログを表示します' . PHP_EOL;
+
+    $sql = 'SELECT id, product_name, product_maker, use_by_date, suggestion, etc FROM cosmelog';
+    $results = mysqli_query($link, $sql);
+
+    while ($review = mysqli_fetch_assoc($results)) {
+        echo '化粧品名：' . $review['product_name'] . PHP_EOL;
+        echo 'メーカー名：' . $review['product_maker'] . PHP_EOL;
+        echo '使用期限：' . $review['use_by_date'] . PHP_EOL;
         echo 'おすすめ度：' . $review['suggestion'] . PHP_EOL;
         echo '備考：' . $review['etc'] . PHP_EOL;
-        echo '-------------' . PHP_EOL;
+        echo '----------------' . PHP_EOL;
     }
+    mysqli_free_result($results);
 }
 
 function dbConnect()
 {
+    //DBに接続
     $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
     if (!$link) {
         echo 'Error:データベースに接続できませんでした' . PHP_EOL;
         echo 'Debugging error:' . mysqli_connect_error() . PHP_EOL;
         exit;
     }
-    echo 'データベースに接続できました' . PHP_EOL;
     return $link;
 }
 
-$reviews = [];
 $link = dbConnect();
 
 while (true) {
@@ -138,10 +133,8 @@ while (true) {
     if ($num === '1') {
         createReview($link);
     } elseif ($num === '2') {
-        listReviews($reviews);
-    } elseif (
-        $num === '9'
-    ) {
+        listReviews($link);
+    } elseif ($num === '9') {
         mysqli_close($link);
         break;
     }
