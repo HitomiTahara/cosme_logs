@@ -7,6 +7,9 @@ function dbConnect()
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
   $dotenv->load();
 
+  $dbHost = $_ENV['DB_HOST'];
+  var_dump($dbHost);
+
   $link = mysqli_connect('db', 'book_log', 'pass', 'book_log');
   if (!$link) {
     echo 'Error:データベースに接続できませんでした' . PHP_EOL;
