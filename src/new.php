@@ -12,28 +12,28 @@
 
 <body>
     <h1>化粧品の登録</h1>
-    <form action="create.php" method="post">
+    <form action="create.php" method="POST">
         <div>
-            <label for="product_name">化粧品名</label>
-            <input type="text" name="product_name" id="product-name">
+            <label for="product-name">化粧品名</label>
+            <input type="text" name="product-name" id="product-name">
         </div>
         <div>
-            <label for="product_maker">メーカー名</label>
-            <input type="text" name="product_maker" id="product-maker">
+            <label for="product-maker">メーカー名</label>
+            <input type="text" name="product-maker" id="product-maker">
         </div>
         <div>
             <label>使用状況</label>
             <div>
                 <div>
-                    <input type="radio" name="use_by_date" id="year" value="１年">
+                    <input type="radio" name="use-by-date" id="year" value="１年">
                     <label for="year">１年</label>
                 </div>
                 <div>
-                    <input type="radio" name="use_by_date" id="half-year" value="半年">
+                    <input type="radio" name="use-by-date" id="half-year" value="半年">
                     <label for="half-year">半年</label>
                 </div>
                 <div>
-                    <input type="radio" name="use_by_date" id="not-use" value="未使用">
+                    <input type="radio" name="use-by-date" id="not-use" value="未使用">
                     <label for="not-use">未使用</label>
                 </div>
             </div>

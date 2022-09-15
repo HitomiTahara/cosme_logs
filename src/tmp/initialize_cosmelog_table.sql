@@ -1,4 +1,4 @@
- DROP TABLE IF EXISTS cosmelog;
+DROP TABLE IF EXISTS cosmelog;
 
 CREATE TABLE cosmelog (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -6,5 +6,6 @@ CREATE TABLE cosmelog (
   product_maker VARCHAR(255),
   use_by_date  VARCHAR(255),
   suggestion INTEGER(10),
-  etc VARCHAR(255)
+  etc VARCHAR(255),
+  create_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARACTER SET =utf8mb4;

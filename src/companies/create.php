@@ -20,7 +20,7 @@ EOT;
     if ($result) {
         echo 'データを登録しました' . PHP_EOL;
     } else {
-        echo 'Eroor:データ追加に失敗しました。' . PHP_EOL;
+        echo 'Error:データ追加に失敗しました。' . PHP_EOL;
         echo 'Debugging Error:' . mysqli_error($link) . PHP_EOL;
     }
 }
