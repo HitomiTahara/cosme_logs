@@ -12,7 +12,7 @@
 
 <body>
     <h1>化粧品の登録</h1>
-    <form action="" method="post">
+    <form action="create.php" method="post">
         <div>
             <label for="product_name">化粧品名</label>
             <input type="text" name="product_name" id="product-name">
