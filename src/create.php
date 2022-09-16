@@ -16,18 +16,22 @@ etc
 )VALUES(
 "{$cosme['product-name']}",
 "{$cosme['product-maker']}",
-"{$cosme['use-by-date']}"
+"{$cosme['use-by-date']}",
 "{$cosme['suggestion']}",
 "{$cosme['etc']}"
 )
 EOT;
 
+  // var_dump($cosme[$sql]);
+  var_dump($cosme['use-by-date']);
+  var_dump($cosme['suggestion']);
+
   $result = mysqli_query($link, $sql);
-  if ($result) {
-    echo 'データを登録しました' . PHP_EOL;
-  } else {
+  if (!$result) {
     echo 'Error:データ追加に失敗しました。' . PHP_EOL;
     echo 'Debugging Error:' . mysqli_error($link) . PHP_EOL;
+    error_log('Error: fail to create review');
+    error_log('Debugging Error: ' . mysqli_error($link));
   }
 }
 
@@ -44,15 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   //バリデーション
-
-  //データベースに接続
   $link = dbConnect();
-  //データベースにデータを登録する
-
   createCosme($link, $cosme);
-
-  //データベースとの接続を切断
   mysqli_close($link);
+
+  // //データベースに接続
+  // $link = dbConnect();
+  // //データベースにデータを登録する
+
+  // createCosme($link, $cosme);
+
+  // //データベースとの接続を切断
+  // mysqli_close($link);
+
 }
 
 //リダイレクト処理

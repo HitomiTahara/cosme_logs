@@ -17,10 +17,12 @@
             <label for="product-name">化粧品名</label>
             <input type="text" name="product-name" id="product-name">
         </div>
+
         <div>
             <label for="product-maker">メーカー名</label>
             <input type="text" name="product-maker" id="product-maker">
         </div>
+
         <div>
             <label>使用状況</label>
             <div>
@@ -38,10 +40,12 @@
                 </div>
             </div>
         </div>
+
         <div>
             <label for="suggestion">おすすめ度（10満点の整数）</label>
             <input type="number" name="suggestion" id="suggestion">
         </div>
+
         <div>
             <label for="etc">備考</label>
             <textarea type="text" id="etc" name="etc" rows="10"></textarea>
