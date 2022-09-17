@@ -53,16 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   mysqli_close($link);
 
   // //データベースに接続
-  // $link = dbConnect();
+  $link = dbConnect();
   // //データベースにデータを登録する
 
-  // createCosme($link, $cosme);
+  createCosme($link, $cosme);
 
   // //データベースとの接続を切断
-  // mysqli_close($link);
-
+  mysqli_close($link);
 }
 
 //リダイレクト処理
 
-// header("location: index.php");
+header("location: index.php");
