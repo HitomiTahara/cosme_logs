@@ -22,10 +22,6 @@ etc
 )
 EOT;
 
-  // var_dump($cosme[$sql]);
-  var_dump($cosme['use-by-date']);
-  var_dump($cosme['suggestion']);
-
   $result = mysqli_query($link, $sql);
   if (!$result) {
     echo 'Error:データ追加に失敗しました。' . PHP_EOL;
@@ -40,10 +36,40 @@ function validate($cosme)
 
   $errors = [];
 
+  //化粧品名
   if (!strlen($cosme['product-name'])) {
     $errors['product-name'] = '化粧品名を入れてください';
   } elseif (strlen($cosme['product-name']) > 255) {
     $errors['product-name'] = '化粧品名を255文字以内で入れてください';
+  }
+  //メーカー名
+  if (!strlen($cosme['product-maker'])) {
+    $errors['product-maker'] = 'メーカー名を入れてください';
+  } elseif (strlen($cosme['product-maker']) > 100) {
+    $errors['product-maker'] = 'メーカー名を100文字以内で入れてください';
+  }
+
+
+  //使用期限
+  // if (!strlen($cosme['use-by-date'])) {
+  //   $errors['use-by-date'] = '使用状況を選択してください';
+  // } else
+  if (!in_array($cosme['use-by-date'], ['１年', '半年', '未使用'])) {
+    $errors['use-by-date'] = '使用状況は「１年」「半年」「未使用」のいずれかを入力してください';
+  }
+
+  var_dump(in_array($cosme['use-by-date'], ['１年', '半年', '未読']));
+
+  //おすすめ度
+
+  if (($cosme['suggestion']) < 1 || ($cosme['suggestion']) > 10) {
+    $errors['suggestion'] = ' おすすめ度は１~10の整数を入力してください';
+  }
+  //備考
+  if (!strlen($cosme['etc'])) {
+    $errors['etc'] = '備考を入れてください';
+  } elseif (strlen($cosme['etc']) > 255) {
+    $errors['etc'] = '備考は255文字以内で入力してください';
   }
 
   return $errors;
@@ -51,14 +77,18 @@ function validate($cosme)
 
 //HTTPメソッドがPOSTだったら
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $use_by_date = '';
+  if (array_key_exists('use-by-date', $_POST)) {
+    $use_by_date = $_POST['use-by-date'];
+  }
+
   $cosme = [
     'product-name' => $_POST['product-name'],
     'product-maker' => $_POST['product-maker'],
-    'use-by-date' => $_POST['use-by-date'],
+    'use-by-date' => $use_by_date,
     'suggestion' => $_POST['suggestion'],
     'etc' => $_POST['etc'],
   ];
-
 
   //バリデーション
   // バリデーションする
