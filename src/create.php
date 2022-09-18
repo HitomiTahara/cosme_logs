@@ -24,8 +24,6 @@ EOT;
 
   $result = mysqli_query($link, $sql);
   if (!$result) {
-    echo 'Error:データ追加に失敗しました。' . PHP_EOL;
-    echo 'Debugging Error:' . mysqli_error($link) . PHP_EOL;
     error_log('Error: fail to create review');
     error_log('Debugging Error: ' . mysqli_error($link));
   }
