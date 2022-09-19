@@ -20,19 +20,19 @@
                 <?php endif; ?>
                 </ul>
                 <php endif; ?>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="name">会社名</label>
                         <input type="text" id="name" name="name" value="<?php echo $company['name'] ?>" class="form-control mb-2">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="establishment_date">創立日</label>
                         <input type="date" id="establishment_date" name="establishment_date" value="<?php echo $company['establishment_date'] ?>" class="form-control mb-2">
                     </div>
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="founder">設立者</label>
-                        <input type="text" id="founder" name="founder" value="<?php echo $company['founder'] ?>" class="form-control mb-4">
+                        <input type="text" id="founder" name="founder" value="<?php echo $company['founder'] ?>" class="form-control mb-2>
                     </div>
-                    <button type="submit" class="btn btn-primary">登録する</button>
+                    <button type=" submit" class="btn btn-primary">登録する</button>
         </form>
     </div>
 </body>
