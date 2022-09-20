@@ -1,7 +1,7 @@
 <?php
 
 //libファイルに入っているmysqliファイルを読み込む
-require_once __DIR__ . '/lib/mysqli.php';
+require_once __DIR__ . '/../lib/mysqli.php';
 
 function createCompany($link, $company)
 {

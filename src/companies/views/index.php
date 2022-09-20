@@ -13,9 +13,3 @@
         <div>創業:2013年｜代表：山田進太朗</div>
     </section>
 </main>
-
-<!--
-$title = '会社情報の一覧';
-$content = __DIR__ . '/views/new.php';
-//絶対パスに変更
-include __DIR__ . '/views/layout.php'; -->
