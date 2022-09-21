@@ -8,5 +8,5 @@ $cosme = [
     'etc' => '',
 ];
 $title = '化粧品ログの登録';
-$contents = __DIR__ . '/views/new.php';
+$content = __DIR__ . '/views/create.php';
 include __DIR__ . '/views/layout.php';

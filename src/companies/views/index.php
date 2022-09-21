@@ -1,5 +1,3 @@
-<h1>会社情報の一覧</h1>
-
 <a href="new.php" class="text-decoration-none">会社情報を登録する</a>
 
 <main>

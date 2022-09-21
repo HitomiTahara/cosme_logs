@@ -9,5 +9,5 @@ $cosme = [
 ];
 
 $title = '化粧品の登録';
-$contents = __DIR__ . '/views/new.php';
+$content = __DIR__ . '/views/new.php';
 include  __DIR__ . '/views/layout.php';

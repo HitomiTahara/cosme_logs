@@ -16,7 +16,7 @@
 
     </header>
     <div class="container">
-        <?php include $contents; ?>
+        <?php include $content; ?>
     </div>
 
 </body>
