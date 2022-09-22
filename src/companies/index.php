@@ -9,13 +9,13 @@ require_once __DIR__ . '/lib/mysqli.php';
 function listCompanies($link)
 {
     $companies = [];
-    $sql = 'SELECT name,establishment_date,founder From companies';
+    $sql = 'SELECT * From companies';
+    // $sql = 'SELECT name,establishment_date,founder From companies';
     $results = mysqli_query($link, $sql);
 
     while ($company = mysqli_fetch_assoc($results)) {
         $companies[] = $company;
     }
-    mysqli_free_result($results);
 
     return $companies;
 }
