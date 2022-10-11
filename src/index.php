@@ -7,13 +7,12 @@ function listCosmelog($link)
 {
     $cosme = [];
 
-    $sql = 'SELECT id, product_name,product_maker,use_by_date,suggestion,etc From cosmelog';
+    $sql = 'SELECT * From cosmelog';
     $results = mysqli_query($link, $sql);
 
     while ($cos = mysqli_fetch_assoc($results)) {
         $cosme[] = $cos;
     }
-    mysqli_free_result($results);
     return $cosme;
 }
 

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/lib/mysqli.php';
+require_once __DIR__ . "/../lib/mysqli.php";
 require __DIR__ . '/../vendor/autoload.php';
 
 function dropTable($link)

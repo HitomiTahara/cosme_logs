@@ -1,4 +1,4 @@
-<h2 class="h3 text-gray mb-4">化粧品の登録</h2>
+<h2 class="h3 text-gray mb-4">化粧品を登録する</h2>
 <form action="create.php" method="POST">
     <?php if (count($errors)) : ?>
         <ul class="text-danger">
@@ -16,7 +16,7 @@
         <input type="text" name="product-maker" id="product-maker" value="<?php echo $cosme['product-maker'] ?>" class="form-control">
     </div>
     <div class="mb-3">
-        <label>使用状況</label>
+        <label>使用期限</label>
         <div>
             <div class="form-check form-check-inline">
                 <input type="radio" name="use-by-date" id="year" value="１年" class="form-check-input" <?php echo ($cosme['use-by-date'] === '１年') ? 'checked' : ''; ?>>

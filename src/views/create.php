@@ -1,7 +1,5 @@
 <?php
-
 //libファイルに入っているmysqliファイルを読み込む
-
 require_once __DIR__ . '/../lib/mysqli.php';
 
 function createCosme($link, $cosme)
@@ -92,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!count($errors)) {
         $link = dbConnect();
-        createCosme($link, $cosme);
         mysqli_close($link);
 
         // //データベースに接続
