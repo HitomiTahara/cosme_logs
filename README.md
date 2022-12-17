@@ -2,9 +2,9 @@
 
 ## 目的
 
-* プログラムの作り方を学ぶ
-* 基礎的なPHPの使い方を学ぶ
-* アプリケーション作成の全体像を把握する
+- プログラムの作り方を学ぶ
+- 基礎的な PHP の使い方を学ぶ
+- アプリケーション作成の全体像を把握する
 
 ## 何を作るのか
 
@@ -31,15 +31,15 @@
 2. 読書ログをデータベースに登録できる
 3. 読書ログをデータベースから表示できる
 
-### 3. Web アプリケーション (HTMLで動作するアプリケーション) を作成
+### 3. Web アプリケーション (HTML で動作するアプリケーション) を作成
 
 1. 登録画面で読書ログを登録できる
 2. 一覧画面で読書ログを表示できる
 
-### 4. Herokuを使用してアプリケーションをWeb上に公開
+### 4. Heroku を使用してアプリケーションを Web 上に公開
 
-1. Herokuのアカウントを作成する
-2. Heroku上でアプリケーションを動作できる
+1. Heroku のアカウントを作成する
+2. Heroku 上でアプリケーションを動作できる
 
 ## 環境構築
 
@@ -130,8 +130,8 @@ Docker 関連のファイルを初期状態に戻した上で、src ディレク
 
 ### それでも起動しない場合
 
-* Docker Desktop を再起動します
-* PC を再起動します
+- Docker Desktop を再起動します
+- PC を再起動します
 
 ### ハードディスクの容量が逼迫したら
 
@@ -144,15 +144,15 @@ docker system prune
 
 ### ポートが重複して起動しない場合
 
-* PC を再起動します
-* ポートを使用しているプロセスを調べて kill します
-* docker-compose.yml の ports の左側の番号を変更します
+- PC を再起動します
+- ポートを使用しているプロセスを調べて kill します
+- docker-compose.yml の ports の左側の番号を変更します
 
-※Apacheがある日突然レスポンスを返さなくなった場合もポートの重複が原因の可能性が高い
+※Apache がある日突然レスポンスを返さなくなった場合もポートの重複が原因の可能性が高い
 
-### dbコンテナが起動しない場合
+### db コンテナが起動しない場合
 
-下記のエラーでdbコンテナが起動しない場合
+下記のエラーで db コンテナが起動しない場合
 
 ```bash
 2017-11-20 02:56:52 1 [ERROR] InnoDB: auto-extending data file ./ibdata1 is of a different size 0 pages
@@ -167,14 +167,14 @@ did not yet use them in any way. But be careful: do not remove old data files wh
 2017-11-20 02:56:52 1 [ERROR] Aborting
 ```
 
-MySQLの古いデータを削除します。
+MySQL の古いデータを削除します。
 
 ```bash
 # MySQLの以前のデータを削除する
 rm -rf docker/db/mysql_data
 ```
 
-Dockerの不要なイメージ、コンテナ、ネットワーク、ボリュームを削除します。
+Docker の不要なイメージ、コンテナ、ネットワーク、ボリュームを削除します。
 
 ```bash
 # Docker コンテナの停止・削除
@@ -184,23 +184,4 @@ docker-compose down
 docker system prune --volumes
 ```
 
-MySQLのデータの同期をやめるために、 `docker-compose.yml` の下記3行目を削除します
-
-```bash
-db:
-  volumes:
-    - ./docker/db/mysql_data:/var/lib/mysql # ← この行を削除します
-```
-
-イメージから作成し直します。
-
-```bash
-# Docker イメージのビルド
-docker-compose build
-
-# Docker コンテナの起動
-docker-compose up -d
-
-# コンテナの起動状態を確認する
-docker-compose ps
-```
+MySQL のデータの同期をやめるために、 `docker-compose.yml` の下記 3 行目を削除します
